@@ -1,10 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 declare const module: any;
 
+export const PORT = 8080
+
 async function bootstrap() {
+
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  app.useGlobalPipes(new ValidationPipe());
+  app.setGlobalPrefix('/api');
+  await app.listen(PORT);
 
   if (module.hot) {
     module.hot.accept();
